@@ -18,7 +18,7 @@ enum Sections : Int {
 class HomeViewController: UIViewController {
     
     
-    let sectionTitles : [String] = ["Trending Movies","Popular","Trending Tv","Upcomming Movies","Top Rated "]
+    let sectionTitles : [String] = ["Trending Movies","Trending Tv","Popular","Upcomming Movies","Top Rated "]
     
     private let homeFeedTable : UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -39,9 +39,6 @@ class HomeViewController: UIViewController {
         
         let headerView = HeroHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
-        
-        
-        
     }
     func configureNavbar(){
         var image = UIImage(named: "logoNetflix")
@@ -61,9 +58,6 @@ class HomeViewController: UIViewController {
         
     }
    
-    
-    
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         homeFeedTable.frame = view.bounds
