@@ -7,6 +7,14 @@
 
 import UIKit
 
+enum Sections : Int {
+    case TrendingMovies = 0
+    case TrendingTv = 1
+    case Popular = 2
+    case Upcomming = 3
+    case TopRated = 4
+}
+
 class HomeViewController: UIViewController {
     
     
@@ -32,6 +40,8 @@ class HomeViewController: UIViewController {
         let headerView = HeroHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
         
+        
+        
     }
     func configureNavbar(){
         var image = UIImage(named: "logoNetflix")
@@ -50,6 +60,10 @@ class HomeViewController: UIViewController {
         ]
         
     }
+   
+    
+    
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         homeFeedTable.frame = view.bounds
@@ -69,6 +83,31 @@ extension HomeViewController : UITableViewDataSource{
         else {
             return UITableViewCell()
         }
+        switch indexPath.section{
+        case Sections.TrendingMovies.rawValue :
+            APICaller.shared.getTrendingMovies{ movies in
+                cell.configure(with: movies)
+            }
+        case Sections.TrendingTv.rawValue :
+            APICaller.shared.getTrendingTvs{ tvs in
+                cell.configure(with: tvs)
+            }
+        case Sections.Popular.rawValue:
+            APICaller.shared.getPopular{ items in
+                cell.configure(with: items)
+            }
+        case Sections.Upcomming.rawValue:
+            APICaller.shared.getUpcommingMovies{ items in
+                cell.configure(with: items)
+            }
+        case Sections.TopRated.rawValue:
+            APICaller.shared.getTopRated{ items in
+                cell.configure(with: items)
+            }
+        default:
+            return UITableViewCell()
+        }
+        
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -85,6 +124,7 @@ extension HomeViewController : UITableViewDataSource{
         header.textLabel?.font = .systemFont(ofSize: 18, weight : .semibold)
         header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: header.bounds.width, height: header.bounds.height)
         header.textLabel?.textColor = .white
+        header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetter()
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
