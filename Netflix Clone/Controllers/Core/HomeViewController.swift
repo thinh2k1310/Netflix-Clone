@@ -25,6 +25,7 @@ class HomeViewController: UIViewController {
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         return table
     }()
+    private var headerView : HeroHeaderView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,8 +39,9 @@ class HomeViewController: UIViewController {
         
         configureNavbar()
         
-        let headerView = HeroHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        headerView = HeroHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: UIScreen.main.bounds.height * 0.6))
         homeFeedTable.tableHeaderView = headerView
+        configureHeaderView()
         
         
     }
@@ -64,6 +66,17 @@ class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         homeFeedTable.frame = view.bounds
+    }
+    private func configureHeaderView(){
+        APICaller.shared.getTrendingMovies(){ movies in
+            guard let randomMovie = movies.randomElement() else { return }
+            guard let moviesName = randomMovie.original_title ?? randomMovie.original_name,
+                  let posterURL = randomMovie.poster_path else {
+                      return
+                  }
+            let vm = ItemViewModel(itemName: moviesName, posterURL: posterURL)
+            self.headerView?.configure(with: vm)
+        }
     }
 }
 // MARK: - TABLEVIEW DATASOURCE

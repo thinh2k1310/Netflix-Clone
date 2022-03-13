@@ -50,6 +50,21 @@ extension SearchResultsViewController : UICollectionViewDataSource{
         cell.configure(with: posterPath)
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let item = items[indexPath.row]
+        guard let itemName = item.original_name ?? item.original_title, let itemOverview = item.overview else {
+            return
+        }
+        
+        APICaller.shared.getYoutubeMovies(with: itemName + " trailer"){ result in
+            DispatchQueue.main.async {
+                let vc =  ItemPreviewViewController()
+                vc.configure(with: ItemPreviewViewModel(name: itemName, overview: itemOverview, youtubeElement: result))
+                self.present(vc, animated: true, completion: nil)
+            }
+        }
+    }
     
     
 }

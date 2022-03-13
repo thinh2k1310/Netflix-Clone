@@ -7,9 +7,13 @@
 
 import UIKit
 
+
+
 class ItemTableViewCell: UITableViewCell {
 
     static let identifier = "ItemTableViewCell"
+    
+    
     
     private let posterImage : UIImageView = {
        let imageView = UIImageView()

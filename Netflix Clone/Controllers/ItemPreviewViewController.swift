@@ -17,7 +17,6 @@ class ItemPreviewViewController: UIViewController {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22 , weight : .bold)
-        label.text = "Spider man"
         return label
     }()
     private let overview : UILabel = {
@@ -25,7 +24,7 @@ class ItemPreviewViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18 , weight : .regular)
         label.numberOfLines = 0
-        label.text = "Spider man No Way Home Spider man No Way Home Spider man No Way Home Spider man No Way Home Spider man No Way Home Spider man No Way Home Spider man No Way Home"
+        
         return label
     }()
     private let downloadButton : UIButton = {

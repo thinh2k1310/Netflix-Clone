@@ -17,6 +17,7 @@ class SearchViewController: UIViewController {
         return tableView
     }()
     private let searchView : UISearchController = {
+        
        let search = UISearchController(searchResultsController: SearchResultsViewController())
         search.searchBar.placeholder = " Search here ..."
         search.searchBar.searchBarStyle = .minimal
@@ -78,6 +79,21 @@ extension SearchViewController : UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let item = items[indexPath.row]
+        guard let itemName = item.original_name ?? item.original_title, let itemOverview = item.overview else {
+            return
+        }
+        APICaller.shared.getYoutubeMovies(with: itemName + " trailer"){ result in
+            DispatchQueue.main.async {
+                let vc =  ItemPreviewViewController()
+                vc.configure(with: ItemPreviewViewModel(name: itemName, overview: itemOverview, youtubeElement: result))
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        
     }
     
     

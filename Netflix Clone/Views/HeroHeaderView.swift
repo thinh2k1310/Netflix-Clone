@@ -6,14 +6,15 @@
 //
 
 import UIKit
+import SDWebImage
 
 class HeroHeaderView: UIView {
 
+    
     private let heroImageView : UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "headerImage")
         return imageView
     }()
     
@@ -34,13 +35,15 @@ class HeroHeaderView: UIView {
         return button
     }()
     private func applyConstraints(){
+        let width = UIScreen.main.bounds.width
+        let height = UIScreen.main.bounds.height
         let playButtonConstraints = [
-            playButton.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 90),
+            playButton.leadingAnchor.constraint(equalTo: leadingAnchor,constant: width / 5),
             playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
             playButton.widthAnchor.constraint(equalToConstant: 100)
         ]
         let downloadButtonConstraints = [
-            downloadButton.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -90),
+            downloadButton.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -width / 5),
             downloadButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
             downloadButton.widthAnchor.constraint(equalToConstant: 100)
         ]
@@ -71,6 +74,10 @@ class HeroHeaderView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         heroImageView.frame = bounds
+    }
+    public func configure(with itemVM : ItemViewModel){
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(itemVM.posterURL)") else { return }
+        heroImageView.sd_setImage(with: url, completed: nil)
     }
 
 }
