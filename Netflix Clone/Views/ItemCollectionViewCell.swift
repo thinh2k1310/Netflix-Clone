@@ -8,12 +8,13 @@
 import UIKit
 import SDWebImage
 
-class TitleCollectionViewCell: UICollectionViewCell {
-    static let identifier = "TitleCollectionViewCell"
+class ItemCollectionViewCell: UICollectionViewCell {
+    static let identifier = "ItemCollectionViewCell"
     
     private let posterImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
         
     }()

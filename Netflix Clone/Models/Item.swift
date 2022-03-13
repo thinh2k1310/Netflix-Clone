@@ -6,10 +6,6 @@
 //
 
 import Foundation
-
-
-
-
 struct Item : Codable {
     let id : Int
     let media_type : String?

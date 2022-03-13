@@ -31,6 +31,7 @@ class HomeViewController: UIViewController {
         
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
+        
 
         view.backgroundColor = .systemBackground
         view.addSubview(homeFeedTable)
@@ -39,6 +40,8 @@ class HomeViewController: UIViewController {
         
         let headerView = HeroHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
+        
+        
     }
     func configureNavbar(){
         var image = UIImage(named: "logoNetflix")
@@ -101,7 +104,7 @@ extension HomeViewController : UITableViewDataSource{
         default:
             return UITableViewCell()
         }
-        
+        cell.delegate = self
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -128,5 +131,18 @@ extension HomeViewController : UITableViewDataSource{
     }
 }
 extension HomeViewController : UITableViewDelegate{
+    
+}
+
+extension HomeViewController : CollectionViewTableViewCellDelegate{
+    func didTapCell(_ cell: CollectionViewTableViewCell, _ viewModel: ItemPreviewViewModel) {
+        DispatchQueue.main.async {
+            let vc =  ItemPreviewViewController()
+            vc.configure(with: viewModel)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+    }
+    
     
 }
