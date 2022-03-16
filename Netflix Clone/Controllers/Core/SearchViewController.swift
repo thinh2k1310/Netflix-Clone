@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class SearchViewController: UIViewController {
     
     private var items : [Item] = []
@@ -98,7 +99,8 @@ extension SearchViewController : UITableViewDataSource{
     
     
 }
-extension SearchViewController : UISearchResultsUpdating {
+extension SearchViewController : UISearchResultsUpdating, SearchResultsViewControllerDelegate {
+    
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
         
@@ -107,6 +109,7 @@ extension SearchViewController : UISearchResultsUpdating {
               let resultController = searchController.searchResultsController as? SearchResultsViewController else {
                   return
               }
+        resultController.delegate = self
         APICaller.shared.search(for: query){ results in
             DispatchQueue.main.async {
                 resultController.items = results
@@ -114,6 +117,12 @@ extension SearchViewController : UISearchResultsUpdating {
             }
         }
     }
-    
+    func didTapItem(_ viewModel: ItemPreviewViewModel) {
+        DispatchQueue.main.async {
+            let vc =  ItemPreviewViewController()
+            vc.configure(with: viewModel)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
     
 }

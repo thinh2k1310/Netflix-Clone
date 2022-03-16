@@ -24,6 +24,7 @@ class ItemTableViewCell: UITableViewCell {
     }()
     private let itemName : UILabel = {
        let label = UILabel()
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -53,7 +54,8 @@ class ItemTableViewCell: UITableViewCell {
             ]
         let itemNameConstraints = [
             itemName.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor,constant: 20),
-            itemName.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -20)
+            itemName.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -30),
+            itemName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -40)
         ]
         let playButtonConstaints = [
             playButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),

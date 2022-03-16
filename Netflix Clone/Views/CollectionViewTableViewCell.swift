@@ -50,6 +50,11 @@ class CollectionViewTableViewCell: UITableViewCell {
             self.collectionView.reloadData()
         }
     }
+    func downloadItem(at indexPath : IndexPath){
+        DatapersistenceManager.shared.downloadItemWith(model: items[indexPath.row]){
+            NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
+        }
+    }
 
 }
 extension CollectionViewTableViewCell : UICollectionViewDelegate{
@@ -81,5 +86,17 @@ extension CollectionViewTableViewCell : UICollectionViewDataSource{
         }
         
     }
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let config = UIContextMenuConfiguration(
+            identifier: nil,
+            previewProvider: nil) { _ in
+                let downloadAction = UIAction(title: "Download", subtitle: nil, image: nil, identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                    self.downloadItem(at: indexPath)
+                }
+                return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [downloadAction])
+            }
+        return config
+    }
+    
     
 }

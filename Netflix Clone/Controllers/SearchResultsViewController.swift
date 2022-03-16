@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol SearchResultsViewControllerDelegate {
+    func didTapItem(_ viewModel : ItemPreviewViewModel )
+}
+
 class SearchResultsViewController: UIViewController {
     
     
     public var items : [Item] = []
+    public var delegate : SearchResultsViewControllerDelegate?
     
     public let searchResultsCollectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -58,12 +63,9 @@ extension SearchResultsViewController : UICollectionViewDataSource{
         }
         
         APICaller.shared.getYoutubeMovies(with: itemName + " trailer"){ result in
-            DispatchQueue.main.async {
-                let vc =  ItemPreviewViewController()
-                vc.configure(with: ItemPreviewViewModel(name: itemName, overview: itemOverview, youtubeElement: result))
-                self.present(vc, animated: true, completion: nil)
-            }
+            self.delegate?.didTapItem(ItemPreviewViewModel(name: itemName, overview: itemOverview, youtubeElement: result))
         }
+        
     }
     
     
